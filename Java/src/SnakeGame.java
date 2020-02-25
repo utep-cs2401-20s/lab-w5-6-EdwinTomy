@@ -45,23 +45,31 @@ public class SnakeGame{
 
         if(game[headPosition[0] - 1][headPosition[1]]){
             tail[0] = headPosition[0] - 1;
+            tail[1] = headPosition[1];
             tail[2]++;
-            findTailRecursive(tail, headPosition);
+            recursiveChecks++;
+            tail =  findTailRecursive(tail, headPosition);
         }
         if(game[headPosition[0]][headPosition[1] - 1]){
-            tail[0] = headPosition[0] - 1;
+            tail[0] = headPosition[0];
+            tail[1] = headPosition[1] - 1;
             tail[2]++;
-            findTailRecursive(tail, headPosition);
+            recursiveChecks++;
+            tail =  findTailRecursive(tail, headPosition);
         }
         if(game[headPosition[0] + 1][headPosition[1]]){
-            tail[0] = headPosition[0] - 1;
+            tail[0] = headPosition[0] + 1;
+            tail[1] = headPosition[1];
             tail[2]++;
-            findTailRecursive(tail, headPosition);
+            recursiveChecks++;
+            tail = findTailRecursive(tail, headPosition);
         }
         if(game[headPosition[0]][headPosition[1] + 1]){
-            tail[0] = headPosition[0] - 1;
+            tail[0] = headPosition[0];
+            tail[1] = headPosition[1] + 1;
             tail[2]++;
-            findTailRecursive(tail, headPosition);
+            recursiveChecks++;
+            tail = findTailRecursive(tail, headPosition);
         }
         return tail;
     }
@@ -74,6 +82,7 @@ public class SnakeGame{
                 }
                 currentPosition[0] = currentPosition[0] - 1;
                 currentPosition[2]++;
+                recursiveChecks++;
                 return findTailRecursive(currentPosition, previousPosition);
             }
         }
@@ -84,6 +93,7 @@ public class SnakeGame{
                 }
                 currentPosition[1] = currentPosition[1] - 1;
                 currentPosition[2]++;
+                recursiveChecks++;
                 return findTailRecursive(currentPosition, previousPosition);
             }
         }
@@ -94,6 +104,7 @@ public class SnakeGame{
                 }
                 currentPosition[0] = currentPosition[0] + 1;
                 currentPosition[2]++;
+                recursiveChecks++;
                 return findTailRecursive(currentPosition, previousPosition);
             }
         }
@@ -104,6 +115,7 @@ public class SnakeGame{
                 }
                 currentPosition[1] = currentPosition[1] + 1;
                 currentPosition[2]++;
+                recursiveChecks++;
                 return findTailRecursive(currentPosition, previousPosition);
             }
         }return currentPosition;
@@ -112,6 +124,14 @@ public class SnakeGame{
     private void resetCounters(){
         exhaustiveChecks = 0;
         recursiveChecks = 0;
+    }
+
+    private static int getExhaustiveChecks(){
+        return exhaustiveChecks;
+    }
+
+    private static int getRecursiveChecks(){
+        return recursiveChecks;
     }
 
     public int neighbors(int row, int column){
