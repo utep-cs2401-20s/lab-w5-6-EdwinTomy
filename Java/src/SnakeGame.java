@@ -39,25 +39,74 @@ public class SnakeGame{
         return tail;
     }
 
-    public int[] findTailRecursive(int[]){
+    public int[] findTailRecursive(){
         resetCounters();
         int[] tail = new int[3];
-        int counter = 0;
 
-        for(int i = 0; i < game.length; i++){
-            for(int j = 0; j <game.length; j++){
-                exhaustiveChecks++;
-                if(game[i][j]){
-                    counter++;
-
-                    if((neighbors(i,j) == 1) && (i != headPosition[0]) && (j != headPosition[1])){
-                        tail[0] = i;
-                        tail[1] = j;
-                    }
-                }
-            }
-        }tail[2] = counter;
+        if(game[headPosition[0] - 1][headPosition[1]]){
+            tail[0] = headPosition[0] - 1;
+            tail[2]++;
+            findTailRecursive(tail, headPosition);
+        }
+        if(game[headPosition[0]][headPosition[1] - 1]){
+            tail[0] = headPosition[0] - 1;
+            tail[2]++;
+            findTailRecursive(tail, headPosition);
+        }
+        if(game[headPosition[0] + 1][headPosition[1]]){
+            tail[0] = headPosition[0] - 1;
+            tail[2]++;
+            findTailRecursive(tail, headPosition);
+        }
+        if(game[headPosition[0]][headPosition[1] + 1]){
+            tail[0] = headPosition[0] - 1;
+            tail[2]++;
+            findTailRecursive(tail, headPosition);
+        }
         return tail;
+    }
+
+    private int[] findTailRecursive(int[] currentPosition, int[] previousPosition){
+        if(game[currentPosition[0] - 1][currentPosition[1]]){
+            if(((currentPosition[0] - 1) != previousPosition[0]) || (currentPosition[1] != previousPosition[1])){
+                for(int i = 0; i < 3; i++){
+                    previousPosition[i] = currentPosition[i];
+                }
+                currentPosition[0] = currentPosition[0] - 1;
+                currentPosition[2]++;
+                return findTailRecursive(currentPosition, previousPosition);
+            }
+        }
+        if(game[currentPosition[0]][currentPosition[1] - 1]){
+            if((currentPosition[0] != previousPosition[0]) || ((currentPosition[1] - 1) != previousPosition[1])){
+                for(int i = 0; i < 3; i++){
+                    previousPosition[i] = currentPosition[i];
+                }
+                currentPosition[1] = currentPosition[1] - 1;
+                currentPosition[2]++;
+                return findTailRecursive(currentPosition, previousPosition);
+            }
+        }
+        if(game[currentPosition[0] + 1][currentPosition[1]]){
+            if(((currentPosition[0] + 1) != previousPosition[0]) || (currentPosition[1] != previousPosition[1])){
+                for(int i = 0; i < 3; i++){
+                    previousPosition[i] = currentPosition[i];
+                }
+                currentPosition[0] = currentPosition[0] + 1;
+                currentPosition[2]++;
+                return findTailRecursive(currentPosition, previousPosition);
+            }
+        }
+        if(game[currentPosition[0]][currentPosition[1] + 1]){
+            if((currentPosition[0] != previousPosition[0]) || ((currentPosition[1] + 1) != previousPosition[1])){
+                for(int i = 0; i < 3; i++){
+                    previousPosition[i] = currentPosition[i];
+                }
+                currentPosition[1] = currentPosition[1] + 1;
+                currentPosition[2]++;
+                return findTailRecursive(currentPosition, previousPosition);
+            }
+        }return currentPosition;
     }
 
     private void resetCounters(){
